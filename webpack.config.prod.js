@@ -1,10 +1,10 @@
 var path = require ('path');
+var webpack = require ('webpack');
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-
 
 module.exports = {
   debug: true,
-  devtool: 'inline-source-map',
+  devtool: 'source-map',
   noInfo: false,
   entry: [
     path.resolve(__dirname, 'src/index')
@@ -19,7 +19,11 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: 'src/index.html',
       inject: true
-    })
+    }),
+    //Eliminate duplicate packages when generating bundle
+    new webpack.optimize.DedupePlugin(),
+    //minify JS
+    new webpack.optimize.UglifyJsPlugin()
   ],
   module: {
     loaders: [
